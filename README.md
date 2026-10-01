@@ -24,8 +24,7 @@ spotter-eld-trip-planner/
 │   ├── src/components/    Form, map, timeline, summaries, and ELD sheet
 │   ├── Dockerfile
 │   └── package.json
-├── docs/                  Architecture and Loom walkthrough notes
-├── LOOM_GUIDE.txt         Ready-to-read recording script
+├── docs/                  Architecture and planning notes
 ├── docker-compose.yml
 └── render.yaml
 ```
