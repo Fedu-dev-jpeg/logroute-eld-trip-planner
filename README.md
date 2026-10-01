@@ -1,5 +1,8 @@
 # LogRoute ELD Trip Planner
 
+- Live application: https://logroute-eld-trip-planner.vercel.app
+- Repository: https://github.com/Fedu-dev-jpeg/logroute-eld-trip-planner
+
 LogRoute is a full-stack Django and React assessment project. It converts a current location, pickup, drop-off, departure time, and current 70-hour cycle usage into:
 
 - an OpenStreetMap route with pickup, drop-off, fuel, break, and reset markers;
