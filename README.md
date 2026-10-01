@@ -129,12 +129,9 @@ Import the repository twice:
 - Vercel: set the root directory to `frontend` and `VITE_API_URL` to the Render API URL.
 - Render: create a Python web service with root directory `backend`, build command `pip install -r requirements.txt && python manage.py collectstatic --noinput`, and start command `gunicorn config.wsgi:application`.
 
-### Vercel frontend and backend
+### Vercel multi-service deployment
 
-Vercel supports Django through its Python runtime. Import this repository twice:
-
-- API project: root directory `backend`, with `DJANGO_ALLOWED_HOSTS=.vercel.app`, `DJANGO_DEBUG=false`, `DJANGO_SECRET_KEY`, and `CORS_ALLOWED_ORIGINS` set to the frontend origin.
-- Web project: root directory `frontend`, with `VITE_API_URL` set to the API deployment URL followed by `/api`.
+Vercel supports Django through its Python runtime and can deploy both applications as one multi-service project. Import the repository at its root. The root `vercel.json` builds `backend` as Django, builds `frontend` as Vite, routes `/api/*` to Django, and serves React on all other paths. Set `DJANGO_ALLOWED_HOSTS=.vercel.app`, `DJANGO_DEBUG=false`, and a strong `DJANGO_SECRET_KEY` in the project environment variables.
 
 ## Sources
 
