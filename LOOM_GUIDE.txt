@@ -1,76 +1,96 @@
 LOGROUTE ELD TRIP PLANNER
-GUIA Y GUION PARA VIDEO LOOM DE 3 A 5 MINUTOS
+GUION CORTO POR PESTANA PARA LOOM
 
-Objetivo del video
-Mostrar que la aplicacion funciona de punta a punta, explicar brevemente las reglas HOS implementadas y demostrar que el codigo esta organizado y probado.
+Duracion objetivo: 3 a 4 minutos.
 
-Preparacion antes de grabar
-1. Abrir la version publicada de LogRoute.
-2. Abrir el repositorio de GitHub en otra pestana.
-3. Tener preparados estos archivos:
-   - backend/trips/planner.py
-   - backend/trips/providers.py
-   - backend/trips/tests/test_planner.py
-   - frontend/src/App.jsx
-   - frontend/src/components/RouteMap.jsx
-   - frontend/src/components/LogSheet.jsx
-4. Cerrar notificaciones y pestanas personales.
-5. Grabar en 1080p y usar una ventana de navegador completa.
+Antes de grabar, dejar abiertas estas pestanas:
+1. Aplicacion publicada.
+2. Repositorio de GitHub.
+3. backend/trips/planner.py.
+4. backend/trips/providers.py.
+5. backend/trips/tests/test_planner.py.
+6. frontend/src/App.jsx.
+7. frontend/src/components/RouteMap.jsx.
+8. frontend/src/components/LogSheet.jsx.
 
-GUION
+PESTANA 1 - APLICACION PUBLICADA
+Tiempo: 0:00 a 2:05
 
-00:00 - 00:30  PRESENTACION
+Pantalla inicial
+"Hola, soy Federico. Este es LogRoute, una aplicacion full stack hecha con Django y React para planificar viajes de carga respetando las reglas HOS y generar hojas diarias ELD."
 
-"Hola, soy Federico. Este es LogRoute, una aplicacion full stack construida con Django y React para planificar viajes de conductores de carga respetando las reglas federales de horas de servicio. La aplicacion recibe la ubicacion actual, el punto de carga, el destino y las horas ya utilizadas del ciclo, y genera una ruta, las paradas necesarias y las hojas diarias ELD."
+Formulario
+"La aplicacion recibe la ubicacion actual, pickup, drop-off, horas utilizadas del ciclo y fecha de salida. Voy a usar el ejemplo precargado de Chicago, Indianapolis y Atlanta."
 
-Mostrar la pantalla inicial, el formulario y el indicador 70 hr / 8 day.
+Accion: pulsar Build trip plan.
 
-00:30 - 01:25  DEMOSTRACION COMPLETA
+Tarjetas de resultados
+"El backend calcula la distancia, el tiempo total, las horas de conduccion y la cantidad de hojas diarias necesarias."
 
-"Voy a utilizar el ejemplo de Chicago, Indianapolis y Atlanta, con 18.5 horas ya consumidas del ciclo. Tambien puedo elegir la fecha y hora de salida. Al crear el plan, el frontend envia los datos a la API de Django. El backend geocodifica las ubicaciones, obtiene la ruta y construye el cronograma legal."
+Mapa
+"El mapa muestra la ruta, el inicio, pickup, drop-off y las paradas obligatorias de descanso o combustible."
 
-Acciones:
-1. Verificar los datos del formulario.
-2. Pulsar Build trip plan.
-3. Mostrar las tarjetas de distancia, duracion, horas de conduccion y cantidad de logs.
+Timeline
+"El cronograma aplica 11 horas maximas de conduccion, una ventana de 14 horas, pausas despues de 8 horas acumuladas, descansos de 10 horas y el ciclo de 70 horas en 8 dias. Tambien agrega una hora para pickup y drop-off."
 
-01:25 - 02:10  MAPA Y CRONOGRAMA HOS
+Nota Conservative by design
+"Como la entrada no incluye los ocho dias anteriores, cuando se agota el ciclo se programa de forma conservadora un reinicio de 34 horas."
 
-"El mapa utiliza datos de OpenStreetMap y muestra el inicio, pickup, drop-off y las paradas de cumplimiento. El cronograma aplica un maximo de 11 horas de conduccion dentro de una ventana de 14 horas. Despues de ocho horas acumuladas de conduccion se exige una interrupcion de al menos 30 minutos. Tambien se programan descansos de 10 horas, reinicios de ciclo de 34 horas cuando son necesarios, una hora para carga y descarga y combustible antes de superar 1,000 millas."
+Daily log sheets
+"El viaje se divide automaticamente por dias. Cada hoja suma 24 horas entre off duty, sleeper berth, driving y on duty, y se puede descargar como PNG."
 
-Mostrar la linea de ruta, los marcadores, el timeline, la nota Conservative by design y el medidor de ciclo final.
+Accion: cambiar brevemente entre Day 1 y Day 2.
 
-02:10 - 02:50  HOJAS ELD
+Transicion: "Ahora voy a mostrar como esta organizado el codigo."
 
-"La aplicacion divide automaticamente el viaje por dias calendario. Cada pestana representa una hoja de 24 horas. El grafico dibuja los cambios entre off duty, sleeper berth, driving y on duty sobre el formulario entregado para la evaluacion. Las cuatro categorias siempre suman 24 horas y cada hoja se puede descargar como PNG."
+PESTANA 2 - REPOSITORIO DE GITHUB
+Tiempo: 2:05 a 2:25
 
-Cambiar entre Day 1 y Day 2, mostrar los totales y opcionalmente descargar una hoja.
+"El proyecto esta organizado como un monorepo. Backend contiene Django y el motor HOS; frontend contiene React, el mapa y los logs. Tambien incluye Docker, configuracion de Vercel, documentacion y el guion de esta presentacion."
 
-02:50 - 03:50  RECORRIDO DEL CODIGO
+Mostrar rapidamente las carpetas backend, frontend, docs y README.
 
-"El repositorio es un monorepo con backend y frontend separados. En planner.py se encuentra el motor HOS, escrito como logica de dominio independiente para que sea facil de probar. Providers.py encapsula Nominatim y OSRM, utiliza cache y limita las consultas de geocodificacion. La vista de Django valida la solicitud y devuelve la geometria, el cronograma y los logs diarios."
+PESTANA 3 - backend/trips/planner.py
+Tiempo: 2:25 a 2:50
 
-Mostrar planner.py, providers.py y test_planner.py.
+"Este archivo contiene el motor principal de planificacion. Divide la conduccion cuando se alcanza un limite, inserta pausas, combustible, descansos diarios y reinicios de ciclo, y finalmente genera los eventos de cada hoja diaria."
 
-"En React, App.jsx coordina el flujo. RouteMap renderiza la ruta con Leaflet y LogSheet dibuja y exporta las hojas ELD. El proyecto incluye configuracion de Docker y despliegue, documentacion y siete pruebas de backend. Tambien pasa ESLint y el build de produccion."
+PESTANA 4 - backend/trips/providers.py
+Tiempo: 2:50 a 3:05
 
-Mostrar App.jsx, RouteMap.jsx, LogSheet.jsx y README.md.
+"Este servicio conecta con Nominatim para geocodificar y con OSRM para calcular la ruta. Las ubicaciones se guardan en cache y las consultas se limitan para respetar el servicio publico."
 
-03:50 - 04:25  DECISIONES Y LIMITACIONES
+PESTANA 5 - backend/trips/tests/test_planner.py
+Tiempo: 3:05 a 3:20
 
-"La entrada solo informa un total acumulado del ciclo y no contiene los ocho dias anteriores. Por eso no es posible calcular horas de recap con exactitud. Cuando se agota el ciclo, la aplicacion toma la opcion conservadora y programa un reinicio de 34 horas. Para produccion reemplazaria el perfil de automovil de OSRM por un proveedor de rutas para camiones, incorporaria trafico, zonas horarias y disponibilidad real de estacionamiento, y guardaria los viajes en PostgreSQL."
+"Las pruebas verifican las pausas, los descansos de 10 horas, el reinicio de 34 horas, los limites de conduccion y que cada hoja diaria sume exactamente 24 horas."
 
-04:25 - 04:40  CIERRE
+PESTANA 6 - frontend/src/App.jsx
+Tiempo: 3:20 a 3:32
 
-"Ese es LogRoute: una solucion full stack desplegada, probada y documentada que transforma datos de despacho en una ruta ejecutable y registros diarios claros. Gracias por revisar mi evaluacion."
+"App.jsx controla el formulario, llama a la API y organiza las tarjetas, el mapa, el timeline y las hojas ELD."
 
-CHECKLIST FINAL
-[ ] La URL publicada se ve en el video.
-[ ] Se ejecuta al menos un viaje completo.
-[ ] Se muestra el mapa y el timeline.
-[ ] Se muestran dos hojas diarias.
-[ ] Se menciona la suposicion del reinicio de 34 horas.
-[ ] Se muestran backend, frontend y pruebas.
-[ ] El video dura entre 3 y 5 minutos.
-[ ] No aparecen correos, tokens, claves o informacion personal.
+PESTANA 7 - frontend/src/components/RouteMap.jsx
+Tiempo: 3:32 a 3:42
+
+"RouteMap dibuja la geometria de la ruta con Leaflet y coloca los marcadores de ubicaciones y paradas HOS."
+
+PESTANA 8 - frontend/src/components/LogSheet.jsx
+Tiempo: 3:42 a 3:55
+
+"LogSheet dibuja los cambios de estado sobre el formulario entregado y permite exportar cada hoja como imagen PNG."
+
+CIERRE - VOLVER A LA APLICACION
+Tiempo: 3:55 a 4:10
+
+"LogRoute esta desplegado en Vercel, conectado a GitHub y probado de punta a punta. Convierte datos de despacho en una ruta ejecutable y registros ELD faciles de revisar. Gracias por ver mi evaluacion."
+
+CHECKLIST
+[ ] Mostrar la URL publicada.
+[ ] Ejecutar un viaje completo.
+[ ] Mostrar mapa, timeline y dos hojas ELD.
+[ ] Explicar brevemente el reinicio conservador de 34 horas.
+[ ] Mostrar los archivos indicados sin leer todo el codigo.
+[ ] No mostrar correos, tokens o informacion personal.
+[ ] Mantener el video entre 3 y 5 minutos.
 
