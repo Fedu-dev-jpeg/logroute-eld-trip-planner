@@ -1,0 +1,76 @@
+LOGROUTE ELD TRIP PLANNER
+GUIA Y GUION PARA VIDEO LOOM DE 3 A 5 MINUTOS
+
+Objetivo del video
+Mostrar que la aplicacion funciona de punta a punta, explicar brevemente las reglas HOS implementadas y demostrar que el codigo esta organizado y probado.
+
+Preparacion antes de grabar
+1. Abrir la version publicada de LogRoute.
+2. Abrir el repositorio de GitHub en otra pestana.
+3. Tener preparados estos archivos:
+   - backend/trips/planner.py
+   - backend/trips/providers.py
+   - backend/trips/tests/test_planner.py
+   - frontend/src/App.jsx
+   - frontend/src/components/RouteMap.jsx
+   - frontend/src/components/LogSheet.jsx
+4. Cerrar notificaciones y pestanas personales.
+5. Grabar en 1080p y usar una ventana de navegador completa.
+
+GUION
+
+00:00 - 00:30  PRESENTACION
+
+"Hola, soy Federico. Este es LogRoute, una aplicacion full stack construida con Django y React para planificar viajes de conductores de carga respetando las reglas federales de horas de servicio. La aplicacion recibe la ubicacion actual, el punto de carga, el destino y las horas ya utilizadas del ciclo, y genera una ruta, las paradas necesarias y las hojas diarias ELD."
+
+Mostrar la pantalla inicial, el formulario y el indicador 70 hr / 8 day.
+
+00:30 - 01:25  DEMOSTRACION COMPLETA
+
+"Voy a utilizar el ejemplo de Chicago, Indianapolis y Atlanta, con 18.5 horas ya consumidas del ciclo. Tambien puedo elegir la fecha y hora de salida. Al crear el plan, el frontend envia los datos a la API de Django. El backend geocodifica las ubicaciones, obtiene la ruta y construye el cronograma legal."
+
+Acciones:
+1. Verificar los datos del formulario.
+2. Pulsar Build trip plan.
+3. Mostrar las tarjetas de distancia, duracion, horas de conduccion y cantidad de logs.
+
+01:25 - 02:10  MAPA Y CRONOGRAMA HOS
+
+"El mapa utiliza datos de OpenStreetMap y muestra el inicio, pickup, drop-off y las paradas de cumplimiento. El cronograma aplica un maximo de 11 horas de conduccion dentro de una ventana de 14 horas. Despues de ocho horas acumuladas de conduccion se exige una interrupcion de al menos 30 minutos. Tambien se programan descansos de 10 horas, reinicios de ciclo de 34 horas cuando son necesarios, una hora para carga y descarga y combustible antes de superar 1,000 millas."
+
+Mostrar la linea de ruta, los marcadores, el timeline, la nota Conservative by design y el medidor de ciclo final.
+
+02:10 - 02:50  HOJAS ELD
+
+"La aplicacion divide automaticamente el viaje por dias calendario. Cada pestana representa una hoja de 24 horas. El grafico dibuja los cambios entre off duty, sleeper berth, driving y on duty sobre el formulario entregado para la evaluacion. Las cuatro categorias siempre suman 24 horas y cada hoja se puede descargar como PNG."
+
+Cambiar entre Day 1 y Day 2, mostrar los totales y opcionalmente descargar una hoja.
+
+02:50 - 03:50  RECORRIDO DEL CODIGO
+
+"El repositorio es un monorepo con backend y frontend separados. En planner.py se encuentra el motor HOS, escrito como logica de dominio independiente para que sea facil de probar. Providers.py encapsula Nominatim y OSRM, utiliza cache y limita las consultas de geocodificacion. La vista de Django valida la solicitud y devuelve la geometria, el cronograma y los logs diarios."
+
+Mostrar planner.py, providers.py y test_planner.py.
+
+"En React, App.jsx coordina el flujo. RouteMap renderiza la ruta con Leaflet y LogSheet dibuja y exporta las hojas ELD. El proyecto incluye configuracion de Docker y despliegue, documentacion y siete pruebas de backend. Tambien pasa ESLint y el build de produccion."
+
+Mostrar App.jsx, RouteMap.jsx, LogSheet.jsx y README.md.
+
+03:50 - 04:25  DECISIONES Y LIMITACIONES
+
+"La entrada solo informa un total acumulado del ciclo y no contiene los ocho dias anteriores. Por eso no es posible calcular horas de recap con exactitud. Cuando se agota el ciclo, la aplicacion toma la opcion conservadora y programa un reinicio de 34 horas. Para produccion reemplazaria el perfil de automovil de OSRM por un proveedor de rutas para camiones, incorporaria trafico, zonas horarias y disponibilidad real de estacionamiento, y guardaria los viajes en PostgreSQL."
+
+04:25 - 04:40  CIERRE
+
+"Ese es LogRoute: una solucion full stack desplegada, probada y documentada que transforma datos de despacho en una ruta ejecutable y registros diarios claros. Gracias por revisar mi evaluacion."
+
+CHECKLIST FINAL
+[ ] La URL publicada se ve en el video.
+[ ] Se ejecuta al menos un viaje completo.
+[ ] Se muestra el mapa y el timeline.
+[ ] Se muestran dos hojas diarias.
+[ ] Se menciona la suposicion del reinicio de 34 horas.
+[ ] Se muestran backend, frontend y pruebas.
+[ ] El video dura entre 3 y 5 minutos.
+[ ] No aparecen correos, tokens, claves o informacion personal.
+
